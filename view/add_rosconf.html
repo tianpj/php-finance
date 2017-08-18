@@ -1,0 +1,71 @@
+<!-- content start -->
+<div class="admin-content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding-left am-padding-top">
+            <strong class="am-text-primary am-text-lg"></strong>  <small></small>
+            <input type="button" class="am-btn am-btn-secondary" onclick="javascript:{window.location='index.php?action=sysRos&mod=addRos'}" value="新增ROS"/>
+            <input type="button" class="am-btn am-btn-secondary" onclick="javascript:{window.location='index.php?action=rosConfig&mod=addRosConf'}" value="新增配置"/>
+            <input type="button" class="am-btn am-btn-secondary" onclick="javascript:{window.location='index.php?action=sysRos'}" value="ROS列表"/>
+            <input type="button" class="am-btn am-btn-secondary" onclick="javascript:{window.location='index.php?action=rosConfig'}" value="配置列表"/>
+            <input type="button" class="am-btn am-btn-secondary" onclick="javascript:{window.location='index.php?action=configExec'}" value="配置下发"/>
+            <input type="button" class="am-btn am-btn-secondary" onclick="javascript:{window.location='index.php?action=ipRandom'}" value="打乱IP"/>
+        </div>
+        <div class="am-cf am-padding-left am-padding-top"><small class="am-text-primary am-text-m">>>新增配置</small></div>
+
+        <form class="am-form am-form-horizontal am-padding" id="form_addRosConf">
+
+            <div class="am-form-group">
+                <label class="am-form-label">配置名称</label>
+                <div><input type="text" class="am-form-field" name="name" id="name" placeholder="配置名称"/></div>
+            </div>
+            <div class="am-form-group">
+                <label class="am-form-label">配置类型</label>
+                <div><input type="text" class="am-form-field" name="type" id="type" placeholder="配置类型"/></div>
+            </div>
+            <div class="am-form-group">
+                <label class="am-form-label">备注</label>
+                <div><input type="text" class="am-form-field" name="remark" id="remark" placeholder="备注"/></div>
+            </div>
+
+            <div class="am-form-group">
+                <label class="am-form-label">配置脚本</label>
+                <div>
+                    <textarea class="am-form-field" name="code" id="code" rows="8" placeholder="配置脚本"></textarea>
+                </div>
+            </div>
+            <div class="am-form-group">
+                <div>
+                    <button type="button" class="am-btn am-btn-primary am-btn-sm am-fl" onclick="addRosConf()">提 交</button>
+                </div>
+            </div>
+
+            <div class="red f14 fl" id="msg"></div>
+            <br />
+
+        </form>
+
+    </div>
+</div>
+
+<!-- content end -->
+<script>
+    //增加用途
+    function addRosConf(){
+
+        $.ajax({
+            url: "index.php?action=rosConfig&mod=doAddRosConf",
+            type: "POST",
+            data: $("#form_addRosConf").serialize(),
+            dataType: "json",
+            success: function(res){
+                if(res.status == "success"){
+                    document.getElementById("msg").innerHTML =res.msg;
+                    window.location='index.php?action=rosConfig';
+                }else{
+                    document.getElementById("msg").innerHTML =res.msg;
+                }
+            }
+        });
+
+    }
+</script>

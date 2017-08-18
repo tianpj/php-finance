@@ -1,0 +1,49 @@
+<!-- content start -->
+<div class="admin-content">
+	<div class="admin-content-body">
+		 <div class="am-cf am-padding">
+	    	<div class="am-fl am-cf">
+	    		<strong class="am-text-primary am-text-lg">支付宝详细信息</strong> / <small>列表</small>
+	    	</div>
+	    </div>
+	    <div class="am-padding">
+		<table class="am-table am-table-bordered am-table-hover">
+			<thead>
+				<tr>
+					<th>账号</th>
+					<th>交易编号</th>
+					<th>订单编号</th>
+					<th>支付时间</th>
+					<th>来源</th>
+					<th>类型</th>
+					<th>付款人</th>
+					<th>说明</th>
+					<th>金额</th>
+					<th>收支类型</th>
+					<th>收支状态</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach($result as $finance){ ?>
+				<tr>
+					<td><?php echo $finance['account'];?></td>
+					<td><?php echo $finance['trade_id'];?></td>
+					<td><?php echo $finance['order_id'];?></td>
+					<td><?php echo $finance['pay_time'];?></td>
+					<td><?php echo $finance['trade_source'];?></td>
+					<td><?php echo $finance['type'];?></td>
+					<td><?php echo $finance['trader'];?></td>
+					<td><?php echo $finance['goods_name'];?></td>
+					<td><?php echo $finance['money'];?></td>
+					<td><?php echo $finance['in_out'];?></td>
+					<td><?php echo $finance['fund_status'];?></td>
+				</tr>
+				<?php } ?>
+			</tbody>
+		</table>
+		</div>
+
+	</div>
+
+</div>
+<!-- content end -->

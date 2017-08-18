@@ -1,0 +1,145 @@
+<!-- content start -->
+<div class="admin-content">
+	<div class="admin-content-body" onkeydown="keyLogin();">
+		<div class="am-cf am-padding-left am-padding-top">
+			<button class="am-btn am-btn-secondary" onclick="location.href='index.php?action=server'">服务器列表</button>
+			<button class="am-btn am-btn-secondary" onclick="location.href='index.php?action=server&mod=add'">添加服务器</button>
+		</div>
+
+		<form class="am-form am-form-horizontal am-padding-top am-g" id="ServerInfo">
+			<fieldset>
+				<legend class="am-u-sm-12"><h4>添加服务器</h4></legend>
+				<div class="am-u-sm-6">
+					<div class="am-form-group">
+						<label>所属人</label>
+						<label class="am-fr"><small>选填</small></label>
+						<input type="text" name="user" id="user" value="<?php echo $result['user'];?>" placeholder="输入所属人">
+					</div>
+					<div class="am-form-group">
+						<label>地区</label>
+						<input type="text" name="node" id="node" value="<?php echo $result['node'];?>" placeholder="输入地区">
+					</div>
+					<div class="am-form-group">
+						<label for="cpu">CPU</label>
+						<label class="am-fr"><small>单位：个</small></label>
+						<input type="text" name="cpu" id="cpu" value="<?php echo $result['cpu'];?>" placeholder="输入CPU信息">
+					</div>
+					<div class="am-form-group">
+						<label>内存</label>
+						<label class="am-fr"><small>单位：GB</small></label>
+						<input type="number" name="memory" min="1" id="memory" value="<?php echo $result['memory'];?>" placeholder="输入内存大小">
+					</div>
+					<div class="am-form-group">
+						<label>硬盘</label>
+						<label class="am-fr"><small>单位：GB</small></label>
+						<input type="text" name="disk" id="disk" value="<?php echo $result['disk'];?>" placeholder="输入硬盘信息">
+					</div>
+					<div class="am-form-group">
+						<label>带宽</label>
+						<label class="am-fr"><small>单位：M</small></label>
+						<input type="number" name="line_width" id="line_width" value="<?php echo $result['line_width'];?>" min="1" placeholder="输入带宽大小">
+					</div>
+					<div class="am-form-group">
+						<label>系统类型</label>
+						<select name="sys_type" id="sys_type">
+							<option value="windows">windows</option>
+							<option value="VMware">VMware</option>
+						</select>
+						<span class="am-form-caret"></span>
+					</div>
+					<div class="am-form-group">
+						<label>默认帐号</label>
+						<label class="am-fr"><small>可填写端口号</small></label>
+						<input type="text" name="account" id="account" value="<?php echo $result['account'];?>" placeholder="输入帐号">
+					</div>
+					<div class="am-form-group">
+						<label>默认密码</label>
+						<label class="am-fr"><small>可填写端口号</small></label>
+						<input type="text" name="pass" id="pass" value="<?php echo $result['pass'];?>" placeholder="输入密码">
+					</div>
+				</div>
+				<div class="am-u-sm-6">
+					<div class="am-form-group">
+						<label>主IP</label>
+						<label class="am-fr"><small>可填写端口号</small></label>
+						<input type="text" name="ip" id="ip" value="<?php echo $result['ip'];?>" placeholder="输入主IP">
+					</div>
+					<div class="am-form-group">
+						<label>附加IP</label>
+						<input type="text" name="sec_ip" id="sec_ip" value="<?php echo $result['sec_ip'];?>" placeholder="输入附加IP">
+					</div>
+					<div class="am-form-group">
+						<label>原附加IP</label>
+						<input type="text" name="old_sec_ip" id="old_sec_ip" value="<?php echo $result['old_sec_ip'];?>" placeholder="输入原附加IP">
+					</div>
+					<div class="am-form-group">
+						<label>开通时间</label>
+						<input type="text" name="open_time" id="open_time" value="<?php echo $result['open_time'];?>" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" readonly placeholder="选择开通时间">
+					</div>
+					<div class="am-form-group">
+						<label>到期时间</label>
+						<input type="text" name="end_time" id="end_time" value="<?php echo $result['end_time'];?>" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" readonly placeholder="选择到期时间">
+					</div>
+					<div class="am-form-group">
+						<label>IPMI地址</label>
+						<input type="text" name="impi_dress" value="<?php echo $result['impi_dress'];?>" id="impi_dress" placeholder="输入IPMI地址">
+					</div>
+					<div class="am-form-group">
+						<label>IPMI帐号</label>
+						<input type="text" name="impi_account" value="<?php echo $result['impi_account'];?>" id="impi_account" placeholder="输入IPMI帐号">
+					</div>
+					<div class="am-form-group">
+						<label>IPMI密码</label>
+						<input type="text" name="impi_pass" value="<?php echo $result['impi_pass'];?>" id="impi_pass" placeholder="输入IPMI密码">
+					</div>
+					<div class="am-form-group">
+						<label>备注</label>
+						<textarea class="" rows="5" name="des" id="des"><?php echo $result['des'];?></textarea>
+					</div>
+
+
+				</div>
+
+			</fieldset>
+		</form>
+		<p class="am-padding-left"><button class="am-btn am-btn-primary" id="submitbtn" onclick="save_server()">保存</button></p>
+
+	</div>
+
+	<footer class="admin-content-footer">
+		<hr>
+		<p class="am-padding-left">底部</p>
+	</footer>
+</div>
+<!-- content end -->
+<script>
+	var le=document.getElementsByTagName('option').length;
+	for(var k=0;k<le;k++){
+		if(document.getElementsByTagName('option')[k].value=="<?php echo $result['sys_type'] ?>"){
+			document.getElementsByTagName('option')[k].selected=true;
+		}
+	}
+	function save_server(){
+		var turl=document.URL;
+		var len=document.getElementsByTagName('input').length;
+
+		for(var i=1;i<len;i++){
+	         if(document.getElementsByTagName('input')[i].value==""){
+	           document.getElementsByTagName('input')[i].value='';
+	           document.getElementsByTagName('input')[i].focus();
+	           return false;
+	         }
+        }
+		var id="<?php echo $_GET['id'];?>";
+		$.ajax({
+			url: "index.php?action=server&mod=save&id="+id,
+		    type: "POST",
+		    data:$('#ServerInfo').serialize(),
+		    dataType: "json",
+		    success: function(res){
+		    	alert(res.msg);
+		    	setTimeout(function(){window.location=turl;},100);
+		    }
+		});
+	}
+</script>

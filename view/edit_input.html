@@ -1,0 +1,128 @@
+<!-- content start -->
+  <div class="admin-content">
+    <div class="admin-content-body" onkeydown="keyLogin();">
+      <div class="am-cf am-padding">
+        <div class="am-fl am-cf">
+        	<strong class="am-text-primary am-text-lg">修改录入信息</strong>
+        	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;不想修改了
+        	<a href="index.php?action=input&mod=sel_list">录入信息查询</a>
+        </div>
+
+      </div>
+      <div class="am-g">
+        <form class="am-form" >
+				  <fieldset>
+				  	<div class="am-form-group">
+				      <label for="money">时间</label>
+				      <input id="zd" class="form-control" type="text" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" readonly>
+				    </div>
+				    <div class="am-form-group">
+				      <label for="money">金额</label>
+				      <input type="text" class="" id="money" name="money" placeholder="请输入金额" value="<?php echo $result['money']?>">
+				    </div>
+						<div class="am-form-group">
+				    	<label >类型：&nbsp;&nbsp;</label>
+					      <label class="am-radio-inline">
+					      	<input type="radio"  value="进账" name="type" onclick="findpur('进账')">进账
+					      </label>
+					      <label class="am-radio-inline">
+					        <input type="radio"  value="出账" name="type" onclick="findpur('出账')">出账
+					      </label>
+					      <label class="am-radio-inline">
+					        <input type="radio"  value="退款" name="type" onclick="findpur('退款')">退款
+					      </label>
+				    </div>
+				    <div class="am-form-group">
+				    	<label >来源：&nbsp;&nbsp;</label>
+				    	<?php foreach($source as $so){
+				    		if($so['source']==$result['sourse']){?>
+					      <label class="am-radio-inline">
+					        <input type="radio"  value="<?php echo $so['id']?>" name="source" checked><?php echo $so['source']?>
+					      </label>
+				      <?php }else{ ?>
+				      	 <label class="am-radio-inline">
+					        <input type="radio"  value="<?php echo $so['id']?>" name="source"><?php echo $so['source']?>
+					      </label>
+					      <?php }
+					      	}?>
+				    </div>
+				    <div class="am-form-group" id="pur">
+						</div>
+				    <div class="am-form-group" id="purpose">
+				    </div>
+
+				    <p>
+				    	<input type="button" id="submitbtn" class="am-btn am-btn-default" onclick="edit_input(<?php echo $result['id']?>)" value="提交">
+				    	<span id="errorMsg" class="red"></span>
+				    </p>
+				  </fieldset>
+				</form>
+
+      </div>
+    </div>
+
+    <footer class="admin-content-footer">
+      <hr>
+      <p class="am-padding-left">底部</p>
+    </footer>
+  </div>
+  <!-- content end -->
+<script>
+	document.getElementById('zd').value="<?php echo date('Y-m-d H:i:s',$result['f_time']); ?>";
+  function findpur(n){
+  	$.ajax({
+  		url:"index.php?action=input&mod=findpur",
+  		type:"POST",
+  		data:{type:n},
+  		dataType:"json",
+  		success:function(res){
+  			$("#pur").html(res.msg)
+  		}
+  	});
+  }
+  function showpurpose(n){
+  	var type = $(n).val();
+  	$.ajax({
+  		url:"index.php?action=input&mod=findpurpose",
+  		type:"POST",
+  		data:{type:type},
+  		dataType:"json",
+  		success:function(res){
+  			$("#purpose").html(res.msg)
+  		}
+  	});
+  }
+  //修改录入信息
+	function edit_input(id){
+		var money = $("input[name='money']").val();
+		var source = $("input[name='source']:checked").val();
+		var purpose = $("input[name='purpose']:checked").val();
+		var type = $("input[name='type']:checked").val();
+		var describe = $("#doc-ta-1").val().trim();
+		var time = $('#zd').val();
+		//alert(source);return false;
+		if(!money || !describe||!source){
+			document.getElementById("errorMsg").innerHTML = "不能为空！";
+			return false;
+		}else{
+			document.getElementById("errorMsg").innerHTML = "";
+		}
+
+		$.ajax({
+        url: "index.php?action=input&mod=edit_input",
+		    type: "POST",
+		    data:{"money":money,"purpose":purpose,"source":source,"describe":describe,"type":type,"id":id,"time":time},
+		    dataType: "json",
+		    success: function(res){
+		        if(res.status == "ok"){
+		            document.getElementById("errorMsg").innerHTML =res.msg;
+		            window.location = "index.php?action=input&mod=sel_list";
+		            }else{
+		              document.getElementById("errorMsg").innerHTML =res.msg;
+		            }
+		        }
+    });
+
+
+}
+  </script>

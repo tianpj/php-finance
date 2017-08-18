@@ -1,0 +1,138 @@
+<!-- content start -->
+<div class="admin-content">
+	<div class="admin-content-body">
+		<div class="am-cf am-padding">
+			<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">配置项</strong></div>
+			<span id="errorMsg" class="red"></span>
+		</div>
+		<div class="am-g">
+			<div class="am-u-md-6">
+				<div class="am-panel am-panel-default">
+					<div class="am-panel-hd am-panel-success">
+						<a href="index.php?action=config&mod=sel_source"><span class="am-icon-plus"></span>增加</a>
+					</div>
+					<div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-1'}">来源
+						<span class="am-icon-chevron-down am-fr"></span>
+					</div>
+					<div id="collapse-panel-1" class="am-in">
+						<table class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
+							<tbody>
+								<tr>
+									<th class="am-text-center">编号</th>
+									<th>来源</th>
+									<th>编辑</th>
+								</tr>
+								<?php  foreach($source as $so){ ?>
+								<form class="am-form am-form-horizontal" id="edit_source">
+									<tr>
+										<td class="am-text-center">
+											<?php echo $so['id']?>
+										</td>
+										<td>
+											<input type="text" name="<?php echo $so['source'] ?>" value="<?php echo $so['source'] ?>" />
+										</td>
+										<td>
+											<div class="am-btn-toolbar">
+												<div class="am-btn-group am-btn-group-xs">
+													<input type="button" onclick="edit_source('<?php echo $so['id'] ?>','<?php echo $so['source']?>')" class="am-btn am-btn-default am-btn-xs am-text-secondary" value="修改" />
+													<input type="button" onclick="location.href='index.php?action=config&mod=del_source&id=<?php echo $so['id'];?>'" class="am-btn am-btn-default am-btn-xs am-text-danger" value="删除" />
+
+												</div>
+											</div>
+										</td>
+									</tr>
+									</from>
+									<?php  }?>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="am-panel am-panel-default">
+					<div class="am-panel-hd am-panel-success">
+						<a href="index.php?action=config&mod=sel_purpose"><span class="am-icon-plus"></span>增加</a>
+					</div>
+					<div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-2'}">用途
+						<span class="am-icon-chevron-down am-fr"></span>
+					</div>
+					<div id="collapse-panel-2" class="am-in">
+						<table class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
+							<tbody>
+								<tr>
+									<th class="am-text-center">类型</th>
+									<th>用途</th>
+									<th>编辑</th>
+								</tr>
+								<?php  foreach($purpose as $pu){ ?>
+								<tr>
+									<td class="am-text-center">
+										<?php echo $pu['type']?>
+									</td>
+									<td>
+										<input type="text" name="<?php echo $pu['purpose'] ?>" value="<?php echo $pu['purpose'] ?>" />
+									</td>
+									<td>
+										<div class="am-btn-toolbar">
+											<div class="am-btn-group am-btn-group-xs">
+												<input type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="edit_purpose('<?php echo $pu['id'] ?>','<?php echo $pu['purpose']?>')" value="修改" />
+												<input type="button" onclick="location.href='index.php?action=config&mod=del_purpose&id=<?php echo $pu['id'];?>'" class="am-btn am-btn-default am-btn-xs am-text-danger" value="删除" />
+											</div>
+										</div>
+									</td>
+								</tr>
+								<?php } ?>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="am-panel am-panel-default">
+					<div class="am-panel-hd am-panel-success">
+						<a href="index.php?action=config&mod=sel_pur"><span class="am-icon-plus"></span>增加</a>
+					</div>
+					<div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-3'}">详细用途
+						<span class="am-icon-chevron-down am-fr"></span>
+					</div>
+					<div id="collapse-panel-3" class="am-in">
+
+						<table class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
+							<tbody>
+								<tr>
+									<th class="am-text-center">用途类型</th>
+									<th>用途详情</th>
+									<th>编辑</th>
+								</tr>
+								<?php  foreach($pur as $p){ ?>
+								<form class="am-form am-form-horizontal" id="edit_source">
+									<tr>
+										<td class="am-text-center">
+											<?php echo $p['pur_type']?>
+										</td>
+										<td>
+											<input type="text" name="<?php echo $p['pur_name'] ?>" value="<?php echo $p['pur_name'] ?>" />
+										</td>
+										<td>
+											<div class="am-btn-toolbar">
+												<div class="am-btn-group am-btn-group-xs">
+													<input type="button" onclick="edit_pur('<?php echo $p['id'] ?>','<?php echo $p['pur_name']?>')" class="am-btn am-btn-default am-btn-xs am-text-secondary" value="修改" />
+													<input type="button" onclick="location.href='index.php?action=config&mod=del_pur&id=<?php echo $p['id'];?>'" class="am-btn am-btn-default am-btn-xs am-text-danger" value="删除" />
+
+												</div>
+											</div>
+										</td>
+									</tr>
+									</from>
+									<?php  }?>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer class="admin-content-footer">
+		<hr>
+		<p class="am-padding-left">底部</p>
+	</footer>
+</div>
+<!-- content end -->

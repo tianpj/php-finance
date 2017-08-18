@@ -1,0 +1,49 @@
+<!-- content start -->
+<div class="admin-content">
+	<div class="admin-content-body">
+		 <div class="am-cf am-padding">
+	    	<div class="am-fl am-cf">
+	    		<strong class="am-text-primary am-text-lg">详细信息</strong> / <small>列表</small>
+	    	</div>
+	   </div>
+	    <div class="am-padding">
+		<table class="am-table am-table-bordered am-table-hover">
+			<thead>
+				<tr>
+
+					<th>时间</th>
+					<th>类型</th>
+					<th>金额</th>
+					<th>来源</th>
+					<th>用途</th>
+					<th>详细描述</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach($result as $finance){ ?>
+				<tr>
+
+					<td><?php echo date("Y-m-d H:i:s",$finance['f_time']);?></td>
+					<td><?php echo $finance['type'];?></td>
+					<td><?php echo $finance['money'];?></td>
+					<td><?php foreach ($source as $so){
+                            			if($finance['source'] == $so['source']){
+                            				echo $so['source'];
+                            			}
+                            		}?></td>
+					<td><?php foreach ($purpose as $pur){
+                            			if($finance['purpose'] == $pur['purpose']){
+                            				echo $pur['purpose'];
+                            			}
+                            		} ?></td>
+					<td><?php echo $finance['desc'];?></td>
+				</tr>
+				<?php } ?>
+			</tbody>
+		</table>
+		</div>
+
+	</div>
+
+</div>
+<!-- content end -->

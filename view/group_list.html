@@ -1,0 +1,78 @@
+<!-- content start -->
+<div class="admin-content">
+    <div class="admin-content-body" id="">
+        <div class="am-cf am-padding-left am-padding-top">
+            <strong class="am-text-primary am-text-lg"></strong>  <small></small>
+            <input type="button" class="am-btn am-btn-secondary" onclick="javascript:{window.location='index.php?action=faq'}" value="全部问答"/>
+            <input type="button" class="am-btn am-btn-secondary" onclick="javascript:{window.location='index.php?action=faq&mod=manageGroup'}" value="分类管理"/>
+            <input type="button" class="am-btn am-btn-secondary" onclick="javascript:{window.location='index.php?action=faq&mod=addGroup'}" value="新增分类"/>
+            <input type="button" class="am-btn am-btn-secondary" onclick="javascript:{window.location='index.php'}" value="新增问题"/>
+        </div>
+        <div class="am-cf am-padding-left am-padding-top"><small class="am-text-primary am-text-m">>>分类列表</small></div>
+        <div id="msg" class="red f14 ml15"></div>
+
+        <div class="am-g">
+            <div class="am-u-sm-12">
+                <form class="am-form">
+                    <table class="am-table am-table-striped am-table-hover table-main">
+                        <thead>
+                        <tr>
+                            <th class="">ID</th>
+                            <th class="">分类名称</th>
+                            <th class="">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        	if(!$res['result']){
+                        ?>
+                        <tr>
+                            <td colspan="3" class="center">No Data.</td>
+                        </tr>
+                        <?php
+                        	}else{
+                                foreach($res['result'] as $v){
+                        ?>
+                        <tr>
+                            <td><?php echo $v['id']?></td>
+                            <td><?php echo $v['group']?></td>
+                            <td>
+                                <div>
+                                    <div class="am-btn-group am-btn-group-xs">
+                                        <input type="button" class="am-btn am-btn-secondary am-btn-xs" onclick="editGroup('<?php echo $v['id'] ?>')" value="编 辑"/>
+                                        <input type="button" class="am-btn am-btn-danger am-btn-xs" onclick="deleteGroup('<?php echo $v['id'] ?>')" value="删 除"/>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php
+                        	}
+                        }
+                        ?>
+                        </tbody>
+                    </table>
+                    <div class="center"><?php echo $res['pagelist']?></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content end -->
+<script type="text/javascript">
+    function editGroup(id){
+        window.location = 'index.php?action=faq&mod=editGroup&id='+id;
+    }
+
+    function deleteGroup(id){
+        if(confirm('确定要删除吗?')){
+            $.post('index.php?action=faq&mod=deleteGroup',{'id':id},function(res){
+                if(res.status=='success'){
+                    document.getElementById("msg").innerHTML =res.msg;
+                    window.location='index.php?action=faq&mod=manageGroup';
+                }else{
+                    document.getElementById("msg").innerHTML =res.msg;
+                }
+            },'json')
+        }
+    }
+</script>

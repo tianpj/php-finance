@@ -1,0 +1,34 @@
+<!-- content start -->
+  <div class="admin-content">
+    <div class="admin-content-body">
+      <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">支付宝导入</strong></div>
+      </div>
+      
+      	<form method="" id="file_form" style="padding-left:20px"  action="" enctype="multipart/form-data">
+				<div class="am-form-group am-form-file">
+		      <label for="doc-ipt-file-2">文件上传</label>
+		      <div>
+		        <button type="button" class="am-btn am-btn-default am-btn-sm">
+		          <i class="am-icon-cloud-upload"></i> 选择要上传的文件</button>
+		      </div>
+		      <input type="file" name="excel" id="doc-ipt-file-2">
+		      </div>
+		      <div>
+		    	<select name="account">
+		    		<?php
+		    			foreach($res as $source){
+		    		?>
+		    		<option value="<?php echo $source['source']?>"><?php echo $source['source']?></option>
+		    		<?php
+		    			}
+		    		?>
+		    	</select>
+		    </div>
+				<input type="button" class="am-btn am-btn-default" value="导入" onclick="imports()">
+		    <div class="red f14" id="errorMsg" ></div>
+		</form>
+    </div>
+
+  </div>
+  <!-- content end -->

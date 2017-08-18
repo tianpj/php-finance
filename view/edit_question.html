@@ -1,0 +1,93 @@
+<!-- content start -->
+<div class="admin-content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding-left am-padding-top">
+            <strong class="am-text-primary am-text-lg"></strong>  <small></small>
+            <input type="button" class="am-btn am-btn-secondary" onclick="javascript:{window.location='index.php?action=faq'}" value="全部问答"/>
+            <input type="button" class="am-btn am-btn-secondary" onclick="javascript:{window.location='index.php?action=faq&mod=manageGroup'}" value="分类管理"/>
+            <input type="button" class="am-btn am-btn-secondary" onclick="javascript:{window.location='index.php?action=faq&mod=addGroup'}" value="新增分类"/>
+            <input type="button" class="am-btn am-btn-secondary" onclick="javascript:{window.location='index.php?action=faq&mod=addQuestion'}" value="新增问答"/>
+        </div>
+        <div class="am-cf am-padding-left am-padding-top"><small class="am-text-primary am-text-m">>>编辑文章</small></div>
+        <form class="am-form am-form-horizontal am-padding" id="">
+
+            <div class="am-form-group">
+                <label for="">选择分类</label>
+                <select name="group_id" id="group_id">
+                    <option value="" selected>请选择</option>
+                    <?php
+		    			foreach($res as $v){
+                            if(strlen($v['path']) == 0){
+                                $len = 0;
+                            }else{
+                                $len = count(explode(',',trim($v['path'],',')));
+                            }
+		    		?>
+                    <option value="<?php echo $v['id']?>" <?php if($v['id']==$res_ques['group_id']){echo 'selected';}?>><?php echo str_repeat('&nbsp',$len).str_repeat('—',$len).$v['group']?></option>
+                    <?php
+		    			}
+		    		?>
+                </select>
+            </div>
+
+            <div class="am-form-group">
+                <label class="am-form-label">文章标题：</label>
+                <div><input type="text" class="am-form-field" name="title" id="title" value="<?php echo $res_ques['title']?>" placeholder="输入文章标题"/></div>
+            </div>
+
+
+            <div class="am-form-group">
+                <label for="">文章内容：</label>
+                <div>
+                    <textarea name="content" id="kindEditor" rows="" placeholder="输入文章内容"><?php echo $res_ques['content']?></textarea>
+                </div>
+            </div>
+
+            <div class="am-form-group">
+                <div>
+                    <input type="button" id="editbtn" class="am-btn am-btn-primary am-btn-sm am-fl" onclick="doEditQuestion('<?php echo $res_ques['id']?>')" value="提 交"/>
+                </div>
+            </div>
+
+            <div class="red f14 fl" id="msg"></div>
+            <br />
+
+        </form>
+
+    </div>
+</div>
+
+<!-- content end -->
+<script type="text/javascript">
+
+    function doEditQuestion(id){
+        var groupid = $('#group_id').val();
+        var title = $('#title').val();
+        var content = editor.html();
+
+        if(!groupid){
+            document.getElementById("msg").innerHTML ='请选择分类！';
+            return;
+        }
+        if(!title || !content){
+            document.getElementById("msg").innerHTML ='请输入标题或内容！';
+            return;
+        }
+        $.ajax({
+            url: "index.php?action=faq&mod=doEditQuestion&id="+id,
+            type: "POST",
+            data:{'group_id':groupid,'title':title,'content':content},
+            dataType: "json",
+            success: function(res){
+                if(res.status == "success"){
+                    document.getElementById("msg").innerHTML = res.msg;
+                    window.location = 'index.php?action=faq';
+                }else{
+                    document.getElementById("msg").innerHTML = res.msg;
+                }
+                $("#addbtn").val("提 交").attr('disabled',false);
+            }
+        });
+        $("#addbtn").val("提交中..").attr('disabled',true);
+    }
+</script>

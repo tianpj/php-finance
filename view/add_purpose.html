@@ -1,0 +1,40 @@
+<!-- content start -->
+<div class="admin-content">
+	<div class="admin-content-body" onkeydown="keyLogin();">
+		<div class="am-cf am-padding-left am-padding-top">
+			<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">增加用途</strong></div>
+		</div>
+
+		<form class="am-form am-form-horizontal am-padding" id="form_addPurpose">
+			<div class="am-form-group" style="width: 50%;">
+				<label class="am-form-label">用途类型</label>
+				<select name="purposetype" class="am-form-field">
+					<option value="进账">进账</option>
+					<option value="出账">出账</option>
+					<option value="退款">退款</option>
+				</select>
+			</div>
+			<div class="am-form-group" style="width: 50%;">
+				<label class="am-form-label">用途名称</label>
+				<div>
+					<input type="text" class="am-form-field" name="purpose" id="purpose" />
+				</div>
+			</div>
+			<div class="am-u-sm-10 red f12 fr" id="errorMsg"></div>
+			<br />
+			<div class="am-form-group">
+				<div>
+					<button type="button" id="submitbtn" class="am-btn am-btn-primary am-btn-sm am-fl" onclick="add_purpose()">提 交</button>
+				</div>
+			</div>
+
+		</form>
+
+	</div>
+
+	<footer class="admin-content-footer">
+		<hr>
+		<p class="am-padding-left">底部</p>
+	</footer>
+</div>
+<!-- content end -->

@@ -1,0 +1,79 @@
+<!-- content start -->
+  <div class="admin-content">
+    <div class="admin-content-body" onkeydown="keyLogin();">
+      <div class="am-cf am-padding">
+        <div class="am-fl am-cf">
+        	<strong class="am-text-primary am-text-lg">修改个人资料</strong>
+        </div>
+        
+      </div>
+      <div class="am-g">
+        <form class="am-form" >
+				  <fieldset>
+				    <div class="am-form-group">
+				      <label for="money">用户名：</label>
+				      <input type="text"  id="name_<?php echo $result['id']?>"  value="<?php echo $result['username']?>">
+				    </div>
+			
+				    <div class="am-form-group">
+				      <label for="money">密 码：</label>
+				      <input type="password"  id="pwd_<?php echo $result['id']?>"  value="" placeholder="请输入新密码">
+				    </div>
+					
+					<div class="am-form-group">
+				      <label for="money">确认密码：</label>
+				      <input type="password"  id="pwds_<?php echo $result['id']?>"  value="" placeholder="再次输入新密码">
+				    </div>
+				
+				    <p>
+				    	<input type="button" id="submitbtn" class="am-btn am-btn-default" onclick="edit_pwd(<?php echo $result['id']?>)" value="修改">
+				    	<span id="msg" class="red"></span>
+				    </p>
+				  </fieldset>
+				</form>
+        
+      </div>
+    </div>
+
+    <footer class="admin-content-footer">
+      <hr>
+      <p class="am-padding-left">底部</p>
+    </footer>
+  </div>
+  <!-- content end -->
+  <script>
+  function edit_pwd(id){
+		var turl=document.URL;
+		var username = $("#name_"+id).val();
+		var password = $("#pwd_"+id).val();
+		var passwords = $("#pwds_"+id).val();
+		if(!username || !password || !passwords){
+			$("#msg").html("信息不能为空");
+			return false;
+		}
+		if(password != passwords){
+			$("#msg").html("两次密码不一致");
+			return false;
+		}
+		$.ajax({
+			url: "index.php?action=edit&mod=editPwd",
+		    type: "POST",
+		    data:{"id":id,"username":username,"password":password},
+		    dataType: "json",
+		    success: function(res){
+		        if(res.status == "ok"){
+						$("#msg").html(res.msg);
+						window.location = "index.php";
+		            }else{
+		              $("#msg").html(res.msg);
+		            }
+		        }
+		});
+  }
+  </script>
+  
+  
+  
+  
+  
+  

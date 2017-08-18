@@ -1,0 +1,184 @@
+<!-- content start -->
+<div class="admin-content">
+	<div class="admin-content-body">
+	<div class="am-cf am-padding-left am-padding-top">
+		<button class="am-btn am-btn-secondary" onclick="location.href='index.php?action=input'">手动录入信息</button>
+		<button class="am-btn am-btn-secondary" onclick="location.href='index.php?action=import'">录入支付宝信息</button>
+		<button class="am-btn am-btn-secondary" onclick="location.href='index.php?action=config'">配置</button>
+	</div>
+	<div id="main" class="am-padding-top" style="width: 100%;height:500px;"></div>
+	<div class="am-btn-group am-padding">
+		<!--视图切换栏-->
+		<input type="button" class="am-btn am-margin-right am-btn-primary" value="今日分析" onclick="location.href='index.php?action=analysis&mod=sel_time&type=day'" />
+		<input type="button" class="am-btn am-margin-right am-btn-primary" value="一周分析" onclick="location.href='index.php?action=analysis&mod=sel_time&type=week'" />
+		<input type="button" class="am-btn am-margin-right am-btn-primary" value="一月分析" onclick="location.href='index.php?action=analysis&mod=sel_time&type=month'" />
+		<input type="button" class="am-btn am-margin-right am-btn-primary" value="季度分析" onclick="location.href='index.php?action=analysis&mod=sel_time&type=tmonth'" />
+		<input type="button" class="am-btn am-margin-right am-btn-primary" value="半年分析" onclick="location.href='index.php?action=analysis&mod=sel_time&type=hyear'" />
+		<input type="button" class="am-btn am-margin-right am-btn-primary" value="一年分析" onclick="location.href='index.php?action=analysis&mod=sel_time&type=year'" />
+	</div>
+	<!--视图切换栏结束-->
+	<div id="main1" class="am-padding-top" style="width: 100%;height:500px;"></div>
+
+
+
+	</div>
+</div>
+<!-- content end -->
+<script src="public/js/echarts.js"></script>
+<script type="text/javascript">
+	// 基于准备好的dom，初始化echarts实例
+	var myChart = echarts.init(document.getElementById('main'));
+	var myChart1 = echarts.init(document.getElementById('main1'));
+	//初始化一部分数据
+	//var
+	// 指定图表的配置项和数据
+	var option = {
+		title: {
+			text: '<?php echo $title ?>'
+		},
+		toolbox: {
+        show: true,
+        feature: {
+            dataZoom: {
+                yAxisIndex: 'none'
+            },
+            dataView: {readOnly: false},
+            magicType: {type: ['line', 'bar']},
+            restore: {},
+            saveAsImage: {}
+        }
+    	},
+		tooltip: {
+			trigger: 'axis',
+      	 	axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+       		}
+		},
+		legend: {
+			data: ['进账','出账', '退款','支付宝入款','支付宝出款','支付宝待收款'],
+		},
+		xAxis: {
+			name:'日期',
+			/*data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]*/
+			data: <?php echo $date; ?>
+
+		},
+		yAxis: {
+			 type : 'value',
+             name : '单位：￥',
+		},
+		dataZoom: [
+            {
+                show: true,
+                start: 94,
+                end: 100
+            },
+            {
+                type: 'inside',
+                start: 94,
+                end: 100
+            },
+            {
+                show: false,
+                yAxisIndex: 0,
+                filterMode: 'empty',
+                width: 30,
+                height: '80%',
+                showDataShadow: true,
+                left: '93%'
+            }
+        ],
+		series: [{
+			name: '进账',
+			type: 'bar',
+			stack:'收入',
+			data: <?php echo $in_money; ?>
+		},{
+			name: '支付宝入款',
+			type: 'bar',
+			stack:'收入',
+			data: <?php echo $aliin_money; ?>
+		},{
+			name: '支付宝出款',
+			type: 'bar',
+			stack:'支出',
+			data: <?php echo $aliout_money; ?>
+		},{
+			name: '支付宝待收款',
+			type: 'bar',
+			stack:'收入',
+			data: <?php echo $aliwait_money; ?>
+		},{
+			name: '出账',
+			type: 'bar',
+			stack:'支出',
+			data: <?php echo $out_money; ?>
+		}, {
+			name: '退款',
+			type: 'bar',
+			stack:'支出',
+			data: <?php echo $return_money; ?>
+		}
+		]
+	};
+	var option1 = {
+		title: {
+	       text: '<?php echo $result2["title"] ?>',
+
+	       x:'center'
+		},
+		toolbox: {
+        show: true,
+        feature: {
+            dataZoom: {
+                yAxisIndex: 'none'
+            },
+            dataView: {readOnly: false},
+            magicType: {type: ['line', 'bar']},
+            restore: {},
+            saveAsImage: {}
+        }
+    	},
+		tooltip: {
+			trigger: 'item',
+        	formatter: "{a} <br/>{b} : {c} ({d}%)"
+		},
+		legend: {
+			orient: 'vertical',
+	        left: '10%',
+	        data: ['支付宝入款','支付宝出款','支付宝待入款','进账','出账','退款']
+		},
+		series: [{
+            name: '占比',
+            type: 'pie',
+            radius : '75%',
+            center: ['50%', '50%'],
+            data:[
+                {value:<?php echo $result2['ali_inmoney'] ?>, name:'支付宝入款'},
+                {value:<?php echo $result2['ali_outmoney'] ?>, name:'支付宝出款'},
+                {value:<?php echo $result2['ali_waitmoney'] ?>, name:'支付宝待入款'},
+                {value:<?php echo $result2['inmoney'] ?>, name:'进账'},
+                {value:<?php echo $result2['outmoney'] ?>, name:'出账'},
+                {value:<?php echo $result2['returnmoney'] ?>, name:'退款'}
+            ],
+            /*roseType: 'angle',*/
+            itemStyle: {
+                emphasis: {
+                    shadowBlur: 100,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }
+		]
+	};
+
+	// 使用刚指定的配置项和数据显示图表。
+	myChart.setOption(option);
+	myChart1.setOption(option1);
+	//点击事件
+	myChart.on('click', function (params) {
+		window.open("index.php?action=finance&date="+params.name+"&type="+params.seriesName);
+    //alert(params.seriesName+params.name);
+	});
+</script>

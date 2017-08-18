@@ -1,0 +1,90 @@
+<!-- content start -->
+<div class="admin-content">
+    <div class="admin-content-body" id="">
+        <div class="am-cf am-padding-left am-padding-top">
+            <strong class="am-text-primary am-text-lg"></strong>  <small></small>
+            <input type="button" class="am-btn am-btn-secondary" onclick="javascript:{window.location='index.php?action=sysRos&mod=addRos'}" value="新增ROS"/>
+            <input type="button" class="am-btn am-btn-secondary" onclick="javascript:{window.location='index.php?action=rosConfig&mod=addRosConf'}" value="新增配置"/>
+            <input type="button" class="am-btn am-btn-secondary" onclick="javascript:{window.location='index.php?action=sysRos'}" value="ROS列表"/>
+            <input type="button" class="am-btn am-btn-secondary" onclick="javascript:{window.location='index.php?action=rosConfig'}" value="配置列表"/>
+            <input type="button" class="am-btn am-btn-secondary" onclick="javascript:{window.location='index.php?action=configExec'}" value="配置下发"/>
+            <input type="button" class="am-btn am-btn-secondary" onclick="javascript:{window.location='index.php?action=ipRandom'}" value="打乱IP"/>
+        </div>
+        <div class="am-cf am-padding-left am-padding-top"><small class="am-text-primary am-text-m">>>ROS列表</small></div>
+        <div id="msg" class="red f14 ml15"></div>
+
+        <div class="am-g">
+            <div class="am-u-sm-12">
+                <form class="am-form">
+                    <table class="am-table am-table-striped am-table-hover table-main">
+                        <thead>
+                        <tr>
+                            <th class="">ID</th>
+                            <th class="">主IP</th>
+                            <th class="">附加IP</th>
+                            <th class="">网关</th>
+                            <th class="">掩码</th>
+                            <th class="">帐号</th>
+                            <th class="">密码</th>
+                            <th class="">端口</th>
+                            <th class="">备注</th>
+                            <th class="">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        	if(!$res){
+                        ?>
+                        <tr>
+                            <td colspan="10" class="center">No Data.</td>
+                        </tr>
+                        <?php
+                        	}else{
+                                foreach($res as $v){
+                        ?>
+                        <tr>
+                            <td><?php echo $v['id']?></td>
+                            <td><?php echo $v['ip_main']?></td>
+                            <td><?php $str=explode(',',$v['ip_second']);foreach($str as $val){echo $val."<br/>";}?></td>
+                            <td><?php echo $v['gateway']?></td>
+                            <td><?php echo $v['mask']?></td>
+                            <td><?php echo $v['account']?></td>
+                            <td><?php echo $v['passwd']?></td>
+                            <td><?php echo $v['port']?></td>
+                            <td><?php echo $v['remark']?></td>
+                            <td>
+                                <div>
+                                    <div class="am-btn-group am-btn-group-xs">
+                                        <input type="button" class="am-btn am-btn-secondary am-btn-xs" onclick="javascript:{window.location='index.php?action=sysRos&mod=editRos&id=<?php echo $v['id'];?>'}" value="编 辑"/>
+                                        <input type="button" class="am-btn am-btn-danger am-btn-xs" onclick="deleteRos('<?php echo $v['id']?>')" value="删 除"/>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php
+                        	}
+                        }
+                        ?>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content end -->
+<script type="text/javascript">
+
+    function deleteRos(id){
+        if(confirm('确定要删除吗?')){
+            $.post('index.php?action=sysRos&mod=deleteRos',{'id':id},function(res){
+                if(res.status=='success'){
+                    document.getElementById("msg").innerHTML =res.msg;
+                    window.location='index.php?action=sysRos';
+                }else{
+                    document.getElementById("msg").innerHTML =res.msg;
+                }
+            },'json')
+        }
+    }
+</script>

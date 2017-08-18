@@ -1,0 +1,103 @@
+<!-- content start -->
+<div class="admin-content">
+	<div class="admin-content-body am-scrollable-horizontal">
+		<div class="am-cf am-padding-left am-padding-top">
+			<button class="am-btn am-btn-secondary" onclick="location.href='index.php?action=server'">服务器列表</button>
+			<button class="am-btn am-btn-secondary" onclick="location.href='index.php?action=server&mod=add'">添加服务器</button>
+		</div>
+
+		<table class="am-table am-table-striped am-table-hover table-main">
+                        <thead>
+                        <tr>
+                            <th class="table-date">所属人</th>
+                            <th class="table-type">地区</th>
+                            <th>CPU</th>
+                            <th>内存</th>
+                            <th>硬盘</th>
+                            <th>带宽</th>
+                            <th class="table-type">主IP</th>
+                            <th>附加IP</th>
+                            <th>开通时间</th>
+                            <th>到期时间</th>
+                            <th>IPMI地址</th>
+                            <th>IPMI帐号</th>
+                            <th>IPMI密码</th>
+                            <th>系统类型</th>
+                            <th>默认帐号</th>
+                            <th>默认密码</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        	if(empty($result['result'])){
+                        ?>
+                        <tr>
+                        	<td colspan="17" class="center">No Data.</td>
+                        </tr>
+                        <?php
+                        	}else{
+                        		if(array_key_exists('result',$result)){
+
+                        			foreach($result['result'] as $server){
+                        ?>
+                        <tr>
+                        	<td><?php echo $server["user"]?></td>
+                        	<td><?php echo $server["node"]?></td>
+                            <td><?php echo $server["cpu"]?></td>
+                            <td><?php echo $server["memory"]?>G</td>
+                            <td><?php echo $server["disk"]?></td>
+                            <td><?php echo $server["line_width"]?>M</td>
+                            <td><?php echo $server["ip"]?></td>
+							<td><?php $arr=explode(',',$server["sec_ip"]);foreach($arr as $a){
+							echo '<option>'.$a.'</option>';}?></td>
+							<td><?php echo $server["open_time"]?></td>
+							<td><?php echo $server["end_time"]?></td>
+							<td><?php echo $server["impi_dress"]?></td>
+							<td><?php echo $server["impi_account"]?></td>
+							<td><?php echo $server["impi_pass"]?></td>
+							<td><?php echo $server["sys_type"]?></td>
+							<td><?php echo $server["account"]?></td>
+							<td><?php echo $server["pass"]?></td>
+							<td>
+                            	<div>
+	                                <div class="am-btn-group am-btn-group-xs">
+	                                    <input type="button" class="am-btn am-btn-secondary am-btn-xs" onclick="location.href='index.php?action=server&mod=edit&id=<?php echo $server['id'];?>'" value="编 辑"/>
+	                                	<input type="button" class="am-btn am-btn-danger am-btn-xs" onclick="del_server('<?php echo $server['id'];?>')" value="删 除"/>
+	                                </div>
+                            	</div>
+                            </td>
+                        </tr>
+                        <?php
+                        		}
+                        	}
+                        }
+                        ?>
+                        </tbody>
+                    </table>
+
+	</div>
+	<div class="center f14"><?php echo $result['pagelist']?></div>
+
+	<footer class="admin-content-footer">
+		<hr>
+		<p class="am-padding-left">底部</p>
+	</footer>
+</div>
+<!-- content end -->
+<script>
+	function del_server(id){
+		var turl=document.URL;
+		$.ajax({
+			type:"post",
+			url:"index.php?action=server&mod=del",
+			async:true,
+			data:{id:id},
+			dataType:'json',
+			success:function(res){
+				alert(res.msg);
+		    	setTimeout(function(){window.location=turl;},100);
+			}
+		});
+	}
+</script>

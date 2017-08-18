@@ -1,0 +1,43 @@
+</div>
+
+<a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+
+<script src="public/js/jquery.min.js"></script>
+
+<script src="public/js/amazeui.min.js"></script>
+<script src="public/js/jquery.form.js" type="text/javascript" charset="utf-8"></script>
+<script src="public/js/laydate.dev.js"></script>
+<script src="public/js/app.js"></script>
+
+<script charset="utf-8" src="public/kindeditor/kindeditor.js"></script>
+<script charset="utf-8" src="public/kindeditor/lang/zh_CN.js"></script>
+
+<script type="text/javascript" charset="utf-8">
+    KindEditor.ready(function(K) {
+        window.editor = K.create('#kindEditor',{
+            width:'',
+            height:'400px',
+            items:
+                    [
+                        'undo', 'redo', '|', 'preview', 'print', 'template', 'cut', 'copy', 'paste',
+                        'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+                        'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+                        'superscript', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+                        'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+                        'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'multiimage',
+                        'table', 'hr', 'emoticons', 'pagebreak',
+                        'anchor', 'link', 'unlink'
+                    ],
+
+        });
+
+        var options = {
+            cssPath : '/css/index.css',
+            filterMode : true
+        };
+        var editor = K.create('textarea[name="content"]', options);
+
+    });
+</script>
+</body>
+</html>

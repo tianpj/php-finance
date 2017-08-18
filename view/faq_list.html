@@ -1,0 +1,113 @@
+<!-- content start -->
+<div class="admin-content">
+    <div class="admin-content-body" id="">
+        <div class="am-cf am-padding-left am-padding-top">
+            <strong class="am-text-primary am-text-lg"></strong>  <small></small>
+            <input type="button" class="am-btn am-btn-secondary" onclick="javascript:{window.location='index.php?action=faq'}" value="全部问答"/>
+            <input type="button" class="am-btn am-btn-secondary" onclick="javascript:{window.location='index.php?action=faq&mod=manageGroup'}" value="分类管理"/>
+            <input type="button" class="am-btn am-btn-secondary" onclick="javascript:{window.location='index.php?action=faq&mod=addGroup'}" value="新增分类"/>
+            <input type="button" class="am-btn am-btn-secondary" onclick="javascript:{window.location='index.php?action=faq&mod=addQuestion'}" value="新增问答"/>
+        </div>
+        <div class="am-cf am-padding-left am-padding-top">
+            <small class="am-text-primary am-text-m">>>问答列表</small>
+            <select onchange="selectGroup(this.value)">
+                <option value="">选择分类</option>
+                <?php
+                    foreach($res_group as $v){
+                    if(strlen($v['path']) == 0){
+                                $len = 0;
+                            }else{
+                                $len = count(explode(',',trim($v['path'],',')));
+                            }
+                ?>
+                <option value="<?php echo $v['path'].','.$v['id']?>"><?php echo str_repeat('&nbsp',$len).str_repeat('—',$len).$v['group']?></option>
+                <?php
+                    }
+                ?>
+            </select>
+        </div>
+        <div id="msg" class="red f14 ml15"></div>
+
+        <div class="am-g" id="group_div">
+            <div class="am-u-sm-12">
+                <form class="am-form">
+                    <table class="am-table am-table-striped am-table-hover table-main">
+                        <thead>
+                        <tr>
+                            <th class="">ID</th>
+                            <th class="">所属分类</th>
+                            <th class="">标题</th>
+                            <th class="">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        	if(!$res['result']){
+                        ?>
+                        <tr>
+                            <td colspan="4" class="center">No Data.</td>
+                        </tr>
+                        <?php
+                        	}else{
+                                foreach($res['result'] as $v){
+                        ?>
+                        <tr>
+                            <td><?php echo $v['id']?></td>
+                            <td>
+                            <?php
+                                foreach($res_group as $val){
+                                    if($v['group_id']==$val['id']){
+                                      echo $val['group'];
+                                    }
+                                }
+                            ?>
+                            </td>
+
+                            <td><a href="index.php?action=faq&mod=showFaqDetail&id=<?php echo $v['id']?>"><?php echo $v['title']?></a></td>
+                            <td>
+                                <div>
+                                    <div class="am-btn-group am-btn-group-xs">
+                                        <input type="button" class="am-btn am-btn-secondary am-btn-xs" onclick="editQuestion('<?php echo $v['id']?>')" value="编 辑"/>
+                                        <input type="button" class="am-btn am-btn-danger am-btn-xs" onclick="deleteQuestion('<?php echo $v['id']?>')" value="删 除"/>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php
+                        	}
+                        }
+                        ?>
+                        </tbody>
+                    </table>
+                    <div class="center"><?php echo $res['pagelist']?></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content end -->
+<script type="text/javascript">
+
+    function selectGroup(param){
+
+        $.post('index.php?action=faq&mod=showFaqByGroup',{'param':param},function(res){
+            $('#group_div').html(res);
+        },'html');
+    }
+
+    function editQuestion(id){
+        window.location = 'index.php?action=faq&mod=editQuestion&id='+id;
+    }
+    function deleteQuestion(id){
+        if(confirm('确定要删除吗?')){
+            $.post('index.php?action=faq&mod=deleteQuestion',{'id':id},function(res){
+                if(res.status=='success'){
+                    document.getElementById("msg").innerHTML =res.msg;
+                    window.location='index.php?action=faq';
+                }else{
+                    document.getElementById("msg").innerHTML =res.msg;
+                }
+            },'json')
+        }
+    }
+</script>

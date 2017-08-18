@@ -1,0 +1,81 @@
+<!-- content start -->
+<div class="admin-content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding-left am-padding-top">
+            <strong class="am-text-primary am-text-lg">ROS</strong> / <small>编辑ROS</small>
+        </div>
+
+        <form class="am-form am-form-horizontal am-padding" id="form_editRos">
+
+            <div class="am-form-group">
+                <label class="am-form-label">主IP</label>
+                <div><input type="text" class="am-form-field" name="ip_main" id="ip_main" value="<?php echo $res['ip_main']?>" placeholder="主IP"/></div>
+            </div>
+            <div class="am-form-group">
+                <label class="am-form-label">附加IP</label>
+                <div><input type="text" class="am-form-field" name="ip_second" id="ip_second" value="<?php echo $res['ip_second']?>" placeholder="多个附加IP用英文逗号隔开"/></div>
+            </div>
+            <div class="am-form-group">
+                <label class="am-form-label">网关</label>
+                <div><input type="text" class="am-form-field" name="gateway" id="gateway" value="<?php echo $res['gateway']?>" placeholder="网关"/></div>
+            </div>
+            <div class="am-form-group">
+                <label class="am-form-label">掩码</label>
+                <div><input type="text" class="am-form-field" name="mask" id="mask" value="<?php echo $res['mask']?>" placeholder="掩码"/></div>
+            </div>
+            <div class="am-form-group">
+                <label class="am-form-label">帐号</label>
+                <div><input type="text" class="am-form-field" name="account" id="account" value="<?php echo $res['account']?>" placeholder="帐号"/></div>
+            </div>
+            <div class="am-form-group">
+                <label class="am-form-label">密码</label>
+                <div><input type="text" class="am-form-field" name="password" id="password" value="<?php echo $res['passwd']?>" placeholder="密码"/></div>
+            </div>
+            <div class="am-form-group">
+                <label class="am-form-label">端口</label>
+                <div><input type="text" class="am-form-field" name="port" id="port" value="<?php echo $res['port']?>" placeholder="端口"/></div>
+            </div>
+
+            <div class="am-form-group">
+                <label class="am-form-label">备注</label>
+                <div>
+                    <textarea class="am-form-field" name="remark" id="remark"><?php echo $res['remark']?></textarea>
+                </div>
+            </div>
+
+            <div class="am-form-group">
+                <div>
+                    <button type="button" class="am-btn am-btn-primary am-btn-sm am-fl" onclick="doEditRos('<?php echo $id?>')">提 交</button>
+                </div>
+            </div>
+
+            <div class="red f14 fl" id="msg"></div>
+            <br />
+
+        </form>
+
+    </div>
+</div>
+
+<!-- content end -->
+<script>
+    //增加用途
+    function doEditRos(id){
+
+        $.ajax({
+            url: "index.php?action=sysRos&mod=doEditRos&id="+id,
+            type: "POST",
+            data: $("#form_editRos").serialize(),
+            dataType: "json",
+            success: function(res){
+                if(res.status == "success"){
+                    document.getElementById("msg").innerHTML =res.msg;
+                    window.location='index.php?action=sysRos';
+                }else{
+                    document.getElementById("msg").innerHTML =res.msg;
+                }
+            }
+        });
+
+    }
+</script>

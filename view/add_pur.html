@@ -1,0 +1,68 @@
+<!-- content start -->
+<div class="admin-content">
+	<div class="admin-content-body" onkeydown="keyLogin();">
+		<div class="am-cf am-padding-left am-padding-top">
+			<div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">增加用途</strong></div>
+		</div>
+
+		<form class="am-form am-form-horizontal am-padding" id="form_addPur">
+			<div class="am-form-group" style="width: 50%;">
+				<label class="am-form-label">用途类目</label>
+				<select name="purtype" class="am-form-field">
+					<?php foreach($purpose as $pur){?>
+					<option value="<?php echo $pur['purpose']?>"><?php echo $pur['purpose']?></option>
+					<?php } ?>
+				</select>
+			</div>
+			<div class="am-form-group" style="width: 50%;">
+				<label class="am-form-label">详细用途</label>
+				<div>
+					<input type="text" class="am-form-field" name="purpose" id="purpose" />
+				</div>
+			</div>
+			<div class="am-u-sm-10 red f12 fr" id="errorMsg"></div>
+			<br />
+			<div class="am-form-group">
+				<div>
+					<button type="button" id="submitbtn" class="am-btn am-btn-primary am-btn-sm am-fl" onclick="add_pur()">提 交</button>
+				</div>
+			</div>
+
+		</form>
+
+	</div>
+
+	<footer class="admin-content-footer">
+		<hr>
+		<p class="am-padding-left">底部</p>
+	</footer>
+</div>
+<!-- content end -->
+<script>
+//增加用途
+function add_pur(){
+	var purpose = $("input[name='purpose']").val().trim();
+
+	if(!purpose){
+		document.getElementById("errorMsg").innerHTML = "不能为空！";
+		return false;
+	}else{
+		document.getElementById("errorMsg").innerHTML = "";
+	}
+	$.ajax({
+    url: "index.php?action=config&mod=add_pur",
+	    type: "POST",
+	    data: $("#form_addPur").serialize(),
+	    dataType: "json",
+	    success: function(res){
+	        if(res.status == "ok"){
+	            document.getElementById("errorMsg").innerHTML =res.msg;
+	            window.location = "index.php?action=config";
+	            }else{
+	              document.getElementById("errorMsg").innerHTML =res.msg;
+	            }
+	        }
+    });
+
+}
+</script>

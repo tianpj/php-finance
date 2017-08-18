@@ -1,0 +1,86 @@
+<!-- content start -->
+<div class="admin-content">
+    <div class="admin-content-body" id="form_editAgent">
+	    <div class="am-cf am-padding">
+	    	<div class="am-fl am-cf">
+	    		<strong class="am-text-primary am-text-lg">录入信息</strong> / <small>列表</small>
+	    		<a href="index.php?action=input">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;返回录入</a>
+	    	</div>
+	    </div>
+
+		<div class="am-g">
+            <div class="am-u-sm-12">
+                <form class="am-form">
+                    <table class="am-table am-table-striped am-table-hover table-main">
+                        <thead>
+                        <tr>
+                            <th class="table-date">时间</th>
+                            <th class="table-type">类型</th>
+                            <th>金额</th>
+                            <th>来源</th>
+                            <th class="table-type">用途</th>
+                            <th>详细描述</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        	if(empty($result['result'])){
+                        ?>
+                        <tr>
+                        	<td colspan="10" class="center">No Data.</td>
+                        </tr>
+                        <?php
+                        	}else{
+                        		if(array_key_exists('result',$result)){
+
+                        			foreach($result['result'] as $finance){
+                        ?>
+                        <tr>
+                        	<td><?php echo date("Y-m-d H:i:s",$finance["f_time"])?></td>
+                        	<td><?php echo $finance["type"]?></td>
+                            <td><?php echo $finance["money"]?></td>
+
+                            <td>
+                            	<?php
+                            		foreach ($source as $so){
+                            			if($finance['source'] == $so['id']){
+                            				echo $so['source'];
+                            			}
+                            		}
+                            		?>
+                            </td>
+
+                            <td>
+                            	<?php
+                            		foreach ($purpose as $pur){
+                            			if($finance['purpose'] == $pur['id']){
+                            				echo $pur['purpose'];
+                            			}
+                            		}
+                            		?>
+                            </td>
+							<td><?php echo $finance["desc"]?></td>
+							<td>
+                            	<div>
+	                                <div class="am-btn-group am-btn-group-xs">
+	                                    <input type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="location.href='index.php?action=input&mod=edit_fin&id=<?php echo $finance['id'];?>'" value="编 辑"/>
+	                                	<!--<input type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" value="删 除"/> -->
+	                                </div>
+                            	</div>
+                            </td>
+                        </tr>
+                        <?php
+                        		}
+                        	}
+                        }
+                        ?>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+		<div class="center f14"><?php echo $result['pagelist']?></div>
+	</div>
+</div>
+<!-- content end -->
